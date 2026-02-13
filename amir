@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Кристина, будешь моей Валентинкой? 💖</title>
+<style>
+:root{
+--bg1:#120018;
+--bg2:#2a0037;
+--card:#0f0a18cc;
+--text:#ffe9f5;
+--muted: rgba(255,233,245,.85);
+--pink: #ff4fa3;
+}
+*{ box-sizing:border-box; margin:0; padding:0; }
+body{
+min-height:100vh;
+min-height:100dvh;
+display:grid;
+place-items:center;
+color:var(--text);
+font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+background:
+radial-gradient(1200px 600px at 20% 10%, #ff4fa330, transparent 60%),
+radial-gradient(900px 500px at 90% 30%, #7c4dff33, transparent 60%),
+linear-gradient(135deg, var(--bg1), var(--bg2));
+overflow:hidden;
+padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+/* ===== Floating hearts background ===== */
+.hearts{
+position:fixed; inset:0;
+pointer-events:none;
+opacity:.5;
+z-index:0;
+}
+.heart{
+position:absolute;
+animation: floatUp linear infinite;
+will-change: transform, opacity;
+opacity:0;
+}
+@keyframes floatUp{
+0% { transform: translateY(40px) rotate(-8deg) scale(.9); opacity:0; }
+10% { opacity:.8; }
+80% { opacity:.8; }
+100% { transform: translateY(-120vh) translateX(30px) rotate(10deg) scale(1.2); opacity:0; }
+}
+/* ===== Main card ===== */
+.card{
+width:min(680px, 92vw);
+padding:36px 28px;
+border-radius:24px;
+background:var(--card);
+border:1px solid rgba(255,255,255,.12);
+box-shadow: 0 18px 60px rgba(0,0,0,.45);
+backdrop-filter: blur(12px);
+position:relative;
+z-index:2;
+animation: cardIn .8s ease-out;
+}
+@keyframes cardIn{
+from{ transform: scale(.85) translateY(40px); opacity:0; }
+to{ transform: scale(1) translateY(0); opacity:1; }
+}
+.pulse-heart{
+display:block;
+text-align:center;
+font-size:clamp(48px, 12vw, 64px);
+animation: pulse 1.2s ease-in-out infinite;
+margin-bottom:8px;
+}
+@keyframes pulse{
+0%,100%{ transform:scale(1); }
+50%{ transform:scale(1.18); }
+}
+h1{
+margin:0 0 8px;
+font-size: clamp(22px, 3.2vw, 36px);
+text-align:center;
+line-height:1.2;
+}
+h1 span{ color:var(--pink); }
+.subtitle{
+text-align:center;
+opacity:.85;
+font-size: clamp(13px, 2vw, 16px);
+color: var(--muted);
+margin-bottom:24px;
+}
+/* ===== Buttons ===== */
+.buttons{
+display:flex;
+gap:18px;
+justify-content:center;
+align-items:center;
+flex-wrap:wrap;
+min-height:80px;
+position:relative;
+}
+button{
+border:0;
+padding:14px 32px;
+border-radius:50px;
+font-size:18px;
+font-weight:600;
+cursor:pointer;
+user-select:none;
+-webkit-tap-highlight-color:transparent;
+transition: transform .15s, box-shadow .15s;
+box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+#yesBtn{
+background: linear-gradient(135deg, #ff4fa3, #ff7bd1);
+color:#240013;
+font-size:20px;
+padding:16px 44px;
+}
+#yesBtn:hover{ transform:scale(1.06); box-shadow: 0 12px 32px rgba(255,79,163,.45); }
+#noBtn{
+background: linear-gradient(135deg, #d6d6d6, #fff);
+color:#1b1b1b;
+font-size:16px;
+z-index:999;
+}
+/* ===== Success overlay ===== */
+.success{
+display:none;
+position:fixed; inset:0;
+z-index:100;
+background: linear-gradient(135deg, #1a0022, #3d0055, #1a0022);
+flex-direction:column;
+align-items:center;
+justify-content:center;
+overflow-y:auto;
+padding:30px 16px;
+}
+.success.active{
+display:flex;
+animation: fadeIn .6s ease;
+}
+@keyframes fadeIn{ from{opacity:0} to{opacity:1} }
+.success h2{
+font-size: clamp(28px, 5vw, 48px);
+margin-bottom:6px;
+text-shadow: 0 4px 20px rgba(255,79,163,.5);
+animation: bounceIn .6s ease .2s both;
+}
+@keyframes bounceIn{
+0%{ transform:scale(0); opacity:0; }
+60%{ transform:scale(1.1); opacity:1; }
+100%{ transform:scale(1); }
+}
+.photo-frame{
+width:min(320px, 75vw);
+height:min(320px, 75vw);
+border-radius:50%;
+overflow:hidden;
+border:5px solid rgba(255,255,255,.3);
+box-shadow: 0 20px 60px rgba(255,79,163,.35);
+animation: photoIn .8s ease .5s both;
+margin-bottom:16px;
+}
+@keyframes photoIn{
+0%{ transform:scale(0) rotate(-15deg); opacity:0; }
+70%{ transform:scale(1.05) rotate(3deg); }
+100%{ transform:scale(1) rotate(0); opacity:1; }
+}
+.photo-frame img{
+width:100%; height:100%;
+object-fit:cover;
+display:block;
+}
+/* ===== Happy cat embed ===== */
+.happy-cat-wrap{
+width:min(240px, 55vw);
+border-radius:18px;
+overflow:hidden;
+margin:12px auto 18px;
+box-shadow: 0 10px 30px rgba(0,0,0,.3);
+animation: bounceIn .6s ease .3s both;
+z-index:10;
+position:relative;
+}
+.happy-cat-wrap .tenor-gif-embed{ background:transparent!important; }
+.happy-cat-wrap a{ color:var(--pink); font-size:10px; opacity:.3; text-decoration:none; }
+/* ===== Bouncing cats layer ===== */
+.cats-layer{
+position:fixed; inset:0;
+pointer-events:none;
+z-index:90;
+overflow:hidden;
+}
+.jumping-cat{
+position:absolute;
+bottom:-10px;
+width: clamp(80px, 14vw, 150px);
+animation: catBounce 1.6s ease-in-out infinite;
+filter: drop-shadow(0 8px 16px rgba(0,0,0,.4));
+}
+@keyframes catBounce{
+0%,100%{ transform:translateY(0) scaleX(1); }
+25%{ transform:translateY(-160px) scaleX(1); }
+50%{ transform:translateY(-200px) scaleX(-1); }
+75%{ transform:translateY(-80px) scaleX(-1); }
+}
+/* Side Tenor embeds (desktop) */
+.side-cat{
+position:fixed;
+top:50%; transform:translateY(-50%);
+width:min(280px, 22vw);
+z-index:95;
+display:none;
+pointer-events:none;
+filter: drop-shadow(0 12px 20px rgba(0,0,0,.4));
+}
+.side-cat.left{ left:8px; }
+.side-cat.right{ right:8px; }
+.side-cat .tenor-gif-embed{ background:transparent!important; }
+.side-cat a{ pointer-events:auto; color:var(--pink); font-size:11px; opacity:.4; text-decoration:none; }
+@media(max-width:860px){ .side-cat{ display:none!important; } }
+/* ===== iPhone 13/14 (390px wide) ===== */
+@media(max-width:430px){
+.card{
+width:94vw;
+padding:28px 18px;
+border-radius:20px;
+}
+h1{ font-size:24px; }
+.subtitle{ font-size:14px; margin-bottom:18px; }
+.buttons{ min-height:70px; gap:14px; }
+#yesBtn{ font-size:18px; padding:14px 36px; }
+#noBtn{ font-size:15px; padding:12px 26px; }
+.success{ padding:20px 12px; }
+.success h2{ font-size:28px; }
+.photo-frame{
+width:260px; height:260px;
+border-width:4px;
+}
+.jumping-cat{ width:70px; }
+@keyframes catBounce{
+0%,100%{ transform:translateY(0) scaleX(1); }
+25%{ transform:translateY(-100px) scaleX(1); }
+50%{ transform:translateY(-130px) scaleX(-1); }
+75%{ transform:translateY(-50px) scaleX(-1); }
+}
+}
+/* ===== Confetti ===== */
+.confetti-piece{
+position:fixed;
+top:-14px;
+z-index:110;
+pointer-events:none;
+animation: confettiDrop linear forwards;
+}
+@keyframes confettiDrop{
+0% { transform:translateY(0) rotate(0deg); opacity:1; }
+100%{ transform:translateY(110vh) rotate(720deg); opacity:0; }
+}
+</style>
+</head>
+<body>
+<!-- Hearts background -->
+<div class="hearts" id="hearts"></div>
+<!-- Main Card -->
+<main class="card" id="mainCard">
+<div class="pulse-heart">💖</div>
+<h1><span>Кристина</span>,<br>я люблю тебя. Амир 💘</h1>
+<p class="subtitle">Есть только два варианта… но один из них уже влюблён 🙂</p>
+<div class="buttons" id="btnZone">
+<button id="yesBtn" type="button">Да! 💕</button>
+<button id="noBtn" type="button">Нет</button>
+</div>
+</main>
+<!-- Success screen -->
+<div class="success" id="success">
+<div class="cats-layer" id="catsLayer"></div>
+<!-- Side Tenor cats -->
+<aside class="side-cat left" id="catLeft">
+<div class="tenor-gif-embed"
+data-postid="23625303"
+data-share-method="host"
+data-aspect-ratio="1"
+data-width="100%">
+<a href="https://tenor.com/view/cat-jump-happy-jumping-for-joy-jumping-gif-23625303">Cat Jump</a>
+</div>
+</aside>
+<aside class="side-cat right" id="catRight">
+<div class="tenor-gif-embed"
+data-postid="23625303"
+data-share-method="host"
+data-aspect-ratio="1"
+data-width="100%">
+<a href="https://tenor.com/view/cat-jump-happy-jumping-for-joy-jumping-gif-23625303">Cat Jump</a>
+</div>
+</aside>
+<h2>Кристина, я тебя очень люблю! 💖 Твой Амир</h2>
+<!-- Happy cat -->
+<div class="happy-cat-wrap">
+<div class="tenor-gif-embed"
+data-postid="10804346947536782797"
+data-share-method="host"
+data-aspect-ratio="0.639535"
+data-width="100%">
+<a href="https://tenor.com/view/happy-cat-gif-10804346947536782797">Happy Cat GIF</a>
+</div>
+</div>
+<div class="photo-frame">
+<img src="photo_2025-10-01_19-56-43.jpg" alt="Наше фото" />
+</div>
+</div>
+<script>
+/* ===== Hearts background ===== */
+const heartsEl = document.getElementById('hearts');
+const heartChars = ['❤','💗','💖','💘','💝','💕','💓'];
+for(let i = 0; i < 28; i++){
+const h = document.createElement('div');
+h.className = 'heart';
+h.textContent = heartChars[i % heartChars.length];
+h.style.left = (Math.random() * 100) + 'vw';
+h.style.bottom = (-10 - Math.random() * 30) + 'vh';
+h.style.animationDuration = (7 + Math.random() * 8) + 's';
+h.style.animationDelay = (Math.random() * 8) + 's';
+h.style.fontSize = (14 + Math.random() * 14) + 'px';
+heartsEl.appendChild(h);
+}
+/* ===== Escaping "No" button ===== */
+const noBtn = document.getElementById('noBtn');
+const yesBtn = document.getElementById('yesBtn');
+let escapeCount = 0;
+const noTexts = [
+'Нет','Ты уверена?','Точно-точно?','Подумай ещё!',
+'А если так?','Ну пожааалуйста!','Не нажимай!',
+'Я убегаю!','Не поймаешь!','Хи-хи! 😜',
+'Попробуй ещё!','Ловииии!','🏃💨','Неееет',
+'Тут меня нет!','Ку-ку!','Мяу? 🐱',
+'Нееее!','Опять?!','Сдавайся!','Жми ДА!',
+'Я быстрый!','Фиг поймаешь!','Ну ладно... нет!',
+'Хаха 😂','Туда не смотри!','А вот и нет!',
+'Почти... нет!','🐱💨','Мимо!','Не туда!'
+];
+function escapeNo(){
+escapeCount++;
+noBtn.textContent = noTexts[escapeCount % noTexts.length];
+// Make "Yes" button grow slowly with each attempt
+const yesScale = Math.min(1.6, 1 + escapeCount * 0.02);
+yesBtn.style.transform = 'scale(' + yesScale + ')';
+// Shrink "No" very slowly
+const noScale = Math.max(0.45, 1 - escapeCount * 0.02);
+noBtn.style.fontSize = (16 * noScale) + 'px';
+// Always escape across the whole screen
+noBtn.style.position = 'fixed';
+noBtn.style.zIndex = '999';
+// Safe area with padding from edges
+const pad = 15;
+const maxX = window.innerWidth - noBtn.offsetWidth - pad;
+const maxY = window.innerHeight - noBtn.offsetHeight - pad;
+noBtn.style.left = (pad + Math.random() * Math.max(0, maxX - pad)) + 'px';
+noBtn.style.top = (pad + Math.random() * Math.max(0, maxY - pad)) + 'px';
+noBtn.style.transform = 'rotate(' + (Math.random() * 40 - 20) + 'deg)';
+noBtn.style.transition = 'left 0.15s ease, top 0.15s ease';
+}
+noBtn.addEventListener('mouseenter', escapeNo);
+noBtn.addEventListener('click', e => { e.preventDefault(); escapeNo(); });
+noBtn.addEventListener('touchstart', e => { e.preventDefault(); escapeNo(); }, {passive:false});
+noBtn.addEventListener('focus', escapeNo);
+/* ===== "Yes" — celebration! ===== */
+yesBtn.addEventListener('click', celebrate);
+function celebrate(){
+document.getElementById('mainCard').style.display = 'none';
+noBtn.style.display = 'none';
+const success = document.getElementById('success');
+success.classList.add('active');
+spawnBouncingCats();
+burstConfetti();
+showSideCats();
+// Keep spawning confetti
+setInterval(burstConfetti, 4500);
+}
+/* Bouncing cat GIFs along the bottom */
+function spawnBouncingCats(){
+const layer = document.getElementById('catsLayer');
+const catUrl = 'https://media.tenor.com/haCLNpCo1UYAAAAi/cat-jump.gif';
+const positions = [3, 15, 28, 42, 56, 70, 84, 95];
+positions.forEach((pos, i) => {
+const img = document.createElement('img');
+img.src = catUrl;
+img.className = 'jumping-cat';
+img.style.left = pos + '%';
+img.style.animationDelay = (i * 0.25) + 's';
+img.style.animationDuration = (1.3 + Math.random() * 0.8) + 's';
+layer.appendChild(img);
+});
+}
+/* Confetti burst */
+function burstConfetti(){
+const colors = ['#ff4fa3','#ff7bd1','#f39c12','#9b59b6','#3498db','#2ecc71','#ff69b4','#e74c3c'];
+const shapes = ['❤️','💕','✨','🌟','💖','🎉','🎊','💗'];
+for(let i = 0; i < 60; i++){
+setTimeout(() => {
+const el = document.createElement('div');
+el.className = 'confetti-piece';
+el.style.left = (Math.random() * 100) + '%';
+el.style.animationDuration = (2.5 + Math.random() * 2.5) + 's';
+if(Math.random() > 0.45){
+el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+el.style.fontSize = (14 + Math.random() * 18) + 'px';
+} else {
+const size = 6 + Math.random() * 8;
+el.style.width = size + 'px';
+el.style.height = size + 'px';
+el.style.background = colors[Math.floor(Math.random() * colors.length)];
+el.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+}
+document.body.appendChild(el);
+setTimeout(() => el.remove(), 5500);
+}, i * 40);
+}
+}
+/* Side Tenor cats (desktop only) */
+function showSideCats(){
+document.getElementById('catLeft').style.display = 'block';
+document.getElementById('catRight').style.display = 'block';
+if(!document.getElementById('tenorJs')){
+const s = document.createElement('script');
+s.id = 'tenorJs';
+s.src = 'https://tenor.com/embed.js';
+s.async = true;
+document.body.appendChild(s);
+}
+}
+</script>
+</body>
+</html>
